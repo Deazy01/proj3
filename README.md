@@ -3,12 +3,15 @@
 Student name: Joshua Kofoworola  
 Student ID: 924641574
 
+## Project Status
 
-## Project status
+Implemented the full mutable graph, mutable grid graph, circuit trace,
+and circuit net interfaces. Added a Makefile and seven additional
+GoogleTests. All 155 supplied tests and 7 additional tests passed
+in the provided Docker container, for a total of 162 passing tests.
 
-Implemented the full mutable graph, mutable grid graph, circuit trace and circuit net
-interfaces. Added a Makefile, ten additional GoogleTests. All 155 supplied tests and 10 additional tests passed locally.
-
+HTML code coverage was generated successfully, with 98.6% source-line
+coverage and 96.2% function coverage.
 
 ## Build and run in VS Code
 
@@ -111,35 +114,37 @@ I used OpenAI ChatGPT to help implement and understand Project 3. And asked the 
 “My SimplifyTraces() merges straight segments, but it also removes a pin in the middle. How can I preserve that pin as a connection point?”
 
 AI Response:
+
 1. Removing a vertex without changing other IDs
    Avoid erasing a vertex from a vector if its position represents its ID, because later elements shift. Store vertices in a map keyed by a stable ID. Delete the selected vertex, then remove references to it from every other vertex’s adjacency list. Keep a separate counter for assigning new IDs.
 2. Preventing repeated visits in BFS
    Mark a vertex as visited when you add it to the queue. Otherwise, several vertices could enqueue the same neighbor before it is processed. Mark the starting vertex before the search begins, too.
    if (visited.insert(neighbor).second) {
-       queue.push(neighbor);
+   queue.push(neighbor);
    }
-   
+
    Here, .second is true only when the insertion adds a previously unseen vertex.
+
 3. Checking grid boundaries
    For each direction, first check whether its coordinate change would leave the grid. Only calculate the neighbor after that check. Since coordinates use unsigned integers, subtracting 1 from 0 wraps around to a very large value.
    For example, moving northwest requires:
    if (x > 0 && y > 0) {
-       auto neighbor = GetVertex(x - 1, y - 1);
+   auto neighbor = GetVertex(x - 1, y - 1);
    }
-   
+
    Filter invalid directions out of the effective connection mask, including when a vertex has a custom override.
+
 4. Comparing traces with reversed edges
    Normalize each edge by putting its smaller endpoint first. Then store the normalized edges in a set and compare the two sets.
    auto normalized = source < destination
-   
+
    This treats A→B and B→A as the same electrical connection and ignores edge insertion order. It detects identical edge sets; detecting equivalent geometry with different segment lengths requires expansion or further normalization.
+
 5. Preserving a pin during simplification
    Treat every pin as a stopping point when building simplified traces. You can merge through an ordinary point with exactly two neighbors, but stop at a pin even when it has only two neighbors.
-   
+
 ## Code references
 
 1. Instructor-provided `proj3.tgz`: all supplied headers, tests and development
    container files. The project description and diagrams supplied with the task
    determined the required behavior.
-
-
