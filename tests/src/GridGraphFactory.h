@@ -1,5 +1,5 @@
 #include "GridGraph.h"
-#include "YOUR_GRAPH_HERE.h"
+#include "SimpleGridGraph.h"
 #include <memory>
 
 
@@ -7,11 +7,11 @@ template <typename T>
 struct SGridGraphFactory;
 
 template<>
-struct SGridGraphFactory<YOUR_GRAPH_HERE > {
+struct SGridGraphFactory<CSimpleGridGraph > {
     static std::unique_ptr<CGraph> Create(
         TGridCoordinate width,
         TGridCoordinate height,
         const SGridConnectionPattern& pattern = {}){
-        return std::make_unique<YOUR_GRAPH_HERE>(width,height,pattern);
+        return std::make_unique<CSimpleGridGraph>(width,height,pattern);
     }
 };
