@@ -14,8 +14,7 @@ using TGraphEdge = std::tuple<TGraphVertexID, TGraphVertexID, double, bool>;
 template <typename TGraph>
 struct SGraphFactory;
 
-// Specialize SGraphFactory<TGraph> separately for each implementation.
-// Create(tags, edges) constructs the graph with tags.size() vertices.
+
 template <typename TGraph>
 class MutableGraphInterfaceTest : public ::testing::Test {
 protected:
@@ -38,7 +37,7 @@ protected:
     }
 };
 
-// Replace CYourGraphImplementation with your concrete implementation types.
+
 using MutableGraphImplementations =
     ::testing::Types<CSimpleGraph>;
 
@@ -46,9 +45,6 @@ TYPED_TEST_SUITE(
     MutableGraphInterfaceTest,
     MutableGraphImplementations);
 
-// -----------------------------------------------------------------------------
-// CVertexMutableGraph
-// -----------------------------------------------------------------------------
 
 TYPED_TEST(MutableGraphInterfaceTest, AddVertexIncreasesVertexCount){
     auto graph = TestFixture::CreateGraph();
@@ -130,9 +126,7 @@ TYPED_TEST(MutableGraphInterfaceTest, RemoveInvalidVertexFails){
     EXPECT_EQ(graph->VertexCount(), countBefore);
 }
 
-// -----------------------------------------------------------------------------
-// CVertexTagMutableGraph
-// -----------------------------------------------------------------------------
+
 
 TYPED_TEST(MutableGraphInterfaceTest, SetVertexTagUpdatesTag){
     auto graph = TestFixture::CreateGraph({10, 20});
@@ -186,9 +180,7 @@ TYPED_TEST(MutableGraphInterfaceTest, SetVertexTagInvalidVertexFails){
     EXPECT_EQ(tag, 10);
 }
 
-// -----------------------------------------------------------------------------
-// CEdgeMutableGraph
-// -----------------------------------------------------------------------------
+
 
 TYPED_TEST(MutableGraphInterfaceTest, AddDirectedEdge){
     auto graph = TestFixture::CreateGraph({10, 20});

@@ -15,12 +15,10 @@
 #include <unordered_map>
 #include <vector>
 
-// Replace this with your concrete Grid implementation types.
+
 using GridGraphImplementations = ::testing::Types<CSimpleGridGraph>;
 
-// -----------------------------------------------------------------------------
-// Typed test fixture
-// -----------------------------------------------------------------------------
+
 
 template <typename T>
 class GridGraphInterfaceTest : public ::testing::Test{
@@ -194,9 +192,7 @@ protected:
 
 TYPED_TEST_SUITE(GridGraphInterfaceTest, GridGraphImplementations);
 
-// -----------------------------------------------------------------------------
-// Dimensions and coordinates
-// -----------------------------------------------------------------------------
+
 
 TYPED_TEST(GridGraphInterfaceTest, DimensionsDetermineVertexCount){
     constexpr TGridCoordinate Width = 5;
@@ -339,9 +335,7 @@ TYPED_TEST(GridGraphInterfaceTest, InvalidVertexHasNoLocation){
     EXPECT_FALSE(Grid->GetVertexLocation(1000, location));
 }
 
-// -----------------------------------------------------------------------------
-// Direction bits and masks
-// -----------------------------------------------------------------------------
+
 
 TYPED_TEST(GridGraphInterfaceTest, DirectionBitsAreDistinct){
     TGridVertexConnectionMask combined = GridVertexConnectionNone;
@@ -396,7 +390,7 @@ TYPED_TEST(GridGraphInterfaceTest, EdgeMaskExcludesOutOfBoundsDirections){
     auto* Grid = TestFixture::Grid(Graph.get());
     ASSERT_NE(Grid, nullptr);
 
-    // Top edge, excluding corners.
+    
     const auto id = Grid->GetVertex(1, 0);
     ASSERT_NE(id, CGraph::VertexIDInvalid);
 
@@ -466,9 +460,7 @@ TYPED_TEST(GridGraphInterfaceTest, PatternSelectsMaskByParity){
     }
 }
 
-// -----------------------------------------------------------------------------
-// Mutable global pattern and per-vertex overrides
-// -----------------------------------------------------------------------------
+
 
 TYPED_TEST(GridGraphInterfaceTest, SetGridConnectionPatternUpdatesDefaultMasks){
     auto Graph = TestFixture::CreateGrid(4, 4);
